@@ -71,8 +71,3 @@ class Strategy(strategy_template.Strategy):
         if (params[28] < perA < params[29]): score += params[32]
 
         return score
-
-
-
-
-
