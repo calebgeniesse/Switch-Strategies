@@ -12,7 +12,7 @@ class Strategy(strategy_template.Strategy):
         self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-penalize-large-amounts-of-gc-pairs"
 
         # Default strategy parameters
-        self.default_params_ = [0.4, 0.2, 1.0, 1.0]
+        self.default_params_ = [0.4, 0.2, 0.4, 0.2, 1.0, 1.0, 1.0, 1.0]
 
         # Number of lines of code used to implement the strategy
         self.code_length_ = 4
@@ -23,8 +23,15 @@ class Strategy(strategy_template.Strategy):
         
 
     def score(self, design, params):
-        perGC = float(design['gc'] / (design['gu'] + design['gc'] + design['ua']))
+        perGCstate1 = float(design['gc1'] / (design['gu1'] + design['gc1'] + design['ua1']))
+        perGCstate2 = float(design['gc2'] / (design['gu2'] + design['gc2'] + design['ua2']))
+
+        score = 100
+
+        if perGCstate1 > params[0]: score -= ((perGCstate1 - params[0])*100*params[4])
+        elif perGCstate1 < params[1]: score -= ((params[1] - perGCstate1)*100*params[5])
+
+        if perGCstate2 > params[2]: score -= ((perGCstate2 - params[0])*100*params[6])
+        elif perGCstate2 < params[3]: score -= ((params[1] - perGCstate2)*100*params[7])
         
-        if perGC > params[0]:   return 100 - ((perGC - params[0])*100*params[2])
-        elif perGC < params[1]: return 100 - ((params[1] - perGC)*100*params[3])
-        else:                   return 100
+        return score
