@@ -15,7 +15,7 @@ class Strategy(strategy_template.Strategy):
         self.default_params_ = [0.4, 0.2, 0.4, 0.2, 1.0, 1.0, 1.0, 1.0]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 4
+        self.code_length_ = 8
 
         self.publishable_ = True
         self.denormalized_ = True
