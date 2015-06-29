@@ -22,7 +22,7 @@ class Strategy(strategy_template.Strategy):
                                 ]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = TODO
+        self.code_length_ = 23
 
         self.publishable_ = True
         self.denormalized_ = True
