@@ -22,7 +22,7 @@ class Strategy(strategy_template.Strategy):
         self.comprehensive = False
         
 
-	def score(self, design, params):
+    def score(self, design, params):
         perGC = float(design['gc'] / (design['gu'] + design['gc'] + design['ua']))
         
         if perGC > params[0]:   return 100 - ((perGC - params[0])*100)
