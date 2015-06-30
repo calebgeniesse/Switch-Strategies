@@ -24,7 +24,7 @@ class Strategy(strategy_template.Strategy):
 
     def score(self, design, params):
 
-        perA = design['sequence'].count('A') / len(design['sequence'])
+        perA = float(design['sequence'].count('A')) / len(design['sequence'])
 
         score = 100
         if params[0] < perA < params[1]: score += params[4]

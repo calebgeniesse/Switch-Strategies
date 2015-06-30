@@ -23,8 +23,8 @@ class Strategy(strategy_template.Strategy):
         
 
     def score(self, design, params):
-        perGCstate1 = float(design['gc1'] / (design['gu1'] + design['gc1'] + design['ua1']))
-        perGCstate2 = float(design['gc2'] / (design['gu2'] + design['gc2'] + design['ua2']))
+        perGCstate1 = float(design['gc1']) / (design['gu1'] + design['gc1'] + design['ua1'])
+        perGCstate2 = float(design['gc2']) / (design['gu2'] + design['gc2'] + design['ua2'])
 
         score = 100
 
