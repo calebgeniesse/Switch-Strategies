@@ -16,7 +16,7 @@ class Strategy(strategy_template.Strategy):
         self.default_params_ = [6, -1.0, 2.0]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 20
+        self.code_length_ = 22
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -26,26 +26,30 @@ class Strategy(strategy_template.Strategy):
 
         score = 100
         sequence = design['sequence']
-        elements = design['secstruct_elements']
 
-        for i in range(0, len(elements)):
-            elem = elements[i]
-            if(elem.type_ == RNAELEMENT_STACK):
-                stack_len = elem.get_stack_length()
-                if stack_len > params[0]:
-                    score += (stack_len - params[0]) * params[1]
+        elementss = ["secstruct_elements", "secstruct2_elements"]
 
-                    givereward = True
-                    count = 0
+        for n in range(0, len(elementss)):
+            elements = design[elementss[n]]
+            
+            for i in range(0, len(elements)):
+                elem = elements[i]
+                if(elem.type_ == RNAELEMENT_STACK):
+                    stack_len = elem.get_stack_length()
+                    if stack_len > params[0]:
+                        score += (stack_len - params[0]) * params[1]
 
-                    for j in range(0, stack_len):
-                        pair = elem.get_pair_from_stack(j, sequence)
-                        count += 1
-                        if(pair == "GU" or pair == "UG"): count = 0
-                        if count >= params[0]:
-                            givereward = False
-                            break
+                        givereward = True
+                        count = 0
 
-                    if givereward: score += params[2]
+                        for j in range(0, stack_len):
+                            pair = elem.get_pair_from_stack(j, sequence)
+                            count += 1
+                            if(pair == "GU" or pair == "UG"): count = 0
+                            if count >= params[0]:
+                                givereward = False
+                                break
+
+                        if givereward: score += params[2]
 
         return score
