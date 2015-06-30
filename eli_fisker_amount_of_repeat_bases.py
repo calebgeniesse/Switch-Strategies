@@ -41,21 +41,21 @@ class Strategy(strategy_template.Strategy):
         for i in seq_range:
             if (i > 0 and seq[i] == seq[i-1]) or (i < seqlength -1 and seq[i] == seq[i+1]): percentrepeats += 1
 
-        percentrepeats = (percentrepeats / seqlength) # convert from a count to a percentage
+        percentrepeats = (float(percentrepeats) / seqlength) # convert from a count to a percentage
 
         if("Same State" in design['puztitle']): # Turn on labs
             if (params[0] < percentrepeats < params[1]): score += params[20]
             if (params[2] < percentrepeats < params[3]): score += params[21]
             if (params[4] < percentrepeats < params[5]): score += params[21]
-            if (params[6] < percentrepeats < params[7]): score += params[22]
-            if (params[8] < percentrepeats < params[9]): score += params[22]
+            if (params[6] <= percentrepeats < params[7]): score += params[22]
+            if (params[8] < percentrepeats <= params[9]): score += params[22]
 
         elif( "Exclusion" in design['puztitle']): # Turn off labs
             if (params[10] < percentrepeats < params[11]): score += params[23]
             if (params[12] < percentrepeats < params[13]): score += params[24]
             if (params[14] < percentrepeats < params[15]): score += params[24]
-            if (params[16] < percentrepeats < params[17]): score += params[25]
-            if (params[18] < percentrepeats < params[19]): score += params[25]
+            if (params[16] <= percentrepeats < params[17]): score += params[25]
+            if (params[18] < percentrepeats <= params[19]): score += params[25]
 
         else:
             score = eterna_utils.UNSCORABLE
