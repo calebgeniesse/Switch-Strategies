@@ -8,7 +8,7 @@ class Strategy(strategy_template.Strategy):
         strategy_template.Strategy.__init__(self)
 
         # Title, author of the strategy submission
-        # Note: This strategy is variation C by Omei of Eli's original description
+        # Note: This strategy is variation C by Omei of Eli's original strategy
         self.title_ = ("[Strategy Market] [Switch]"
                        "Elements: Obligatory switching base pairs in"
                        "MS2/FMN switches")
@@ -24,7 +24,7 @@ class Strategy(strategy_template.Strategy):
         self.default_params_ = [10, 12, 2.0, 1.0, -1.0]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 21
+        self.code_length_ = 23
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -42,8 +42,10 @@ class Strategy(strategy_template.Strategy):
             state = str(n)
             otherstate = str((n % 2) + 1)
             for i in seq_range:
-                if (design['secstruct' + state][i] != design['secstruct' + otherstate][i] or
-                    design['pairmap' + state][i] != design['pairmap' + otherstate][i]):
+                if (design['secstruct' + state][i] !=
+                        design['secstruct' + otherstate][i] or
+                        design['pairmap' + state][i] !=
+                        design['pairmap' + otherstate][i]):
                     switchbp += 1
 
         switchbp = float(switchbp) / 2

@@ -8,17 +8,21 @@ class Strategy(strategy_template.Strategy):
         strategy_template.Strategy.__init__(self)
 
         # Title, author of the strategy submission
-        self.title_ = "[Strategy Market] [Switch] How MicroRNA likes to bind: Turnoff labs"
+        self.title_ = ("[Strategy Market] [Switch]"
+                       "How MicroRNA likes to bind: Turnoff labs")
         self.author_ = "Eli Fisker"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-how-microrna-likes-to-bind-turnoff-labs"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch"
+                     "-how-microrna-likes-to-bind-turnoff-labs")
 
         # Default strategy parameters
-        self.default_params_ =  [18, 19, 3, -1, 2, -0.5, -1, 12, 14, -1, 1, 11, 15, 22, 1]
+        self.default_params_ = [18, 19, 3, -1, 2, -0.5, -1, 12,
+                                14, -1, 1, 11, 15, 22, 1]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 53
+        self.code_length_ = 54
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -26,20 +30,21 @@ class Strategy(strategy_template.Strategy):
 
     def canPair(self, b1, b2):
         return ((b1 == 'G' and (b2 == 'U' or b2 == 'C')) or
-            (b1 == 'U' and (b2 == 'A' or b2 == 'G')) or
-            (b1 == 'A' and (b2 == 'U')) or
-            (b1 == 'C' and (b2 == 'G')))
+                (b1 == 'U' and (b2 == 'A' or b2 == 'G')) or
+                (b1 == 'A' and (b2 == 'U')) or
+                (b1 == 'C' and (b2 == 'G')))
 
     def weakPair(self, i, comp, miRNA, seq):
         if comp[i] == -1:
             return False
-        return (miRNA[i] == 'G' and seq[comp[i]] == 'U') or (miRNA[i] == 'U' and seq[comp[i]] == 'G')
+        return ((miRNA[i] == 'G' and seq[comp[i]] == 'U') or
+                (miRNA[i] == 'U' and seq[comp[i]] == 'G'))
 
     def score(self, design, params):
 
         score = 100
 
-        # Turn on labs
+        # Turn off labs
         if "miRNA" in design['labtitle'] and "turn-off" in design['puztitle']:
 
             # get miRNA bases
@@ -47,12 +52,12 @@ class Strategy(strategy_template.Strategy):
             seq = design['sequence']
 
             # find longest complementary strand in the RNA design
-            # complement: each pos has an index 'i', if i == -1 then no pair there
+            # complement: each pos has an index 'i', if i == -1 then no pair
             # if i != -1 then complement[pos] pairs with seq[i]
 
             # Note that len(complement) is not the same as complen
             # complement has bases that are paired and unpaired and its
-            # len(complement) will always be the same as the length of the miRNA
+            # len(complement) will always be the same as the length of miRNA
             # whereas complen is the number of paired bases (the number of
             # complements)
             complement = []
@@ -86,10 +91,10 @@ class Strategy(strategy_template.Strategy):
             elif complen > params[1]:
                 score += params[3] * (complen - params[1])
 
-            # iterate through first 2 miRNA, if G and complement is U, give -1/2
-            # iterate through first 2 miRNA, if U and complement is G, give -1/2
-            # iterate through last 2 miRNA, if G and complement is U, give -1/2
-            # iterate through last 2 miRNA, if U and complement is G, give -1/2
+            # iterate to first 2 miRNA, if G and complement is U, give -0.5
+            # iterate to first 2 miRNA, if U and complement is G, give -0.5
+            # iterate to last 2 miRNA, if G and complement is U, give -0.5
+            # iterate to last 2 miRNA, if U and complement is G, give -0.5
 
             ends = range(0, params[4])
             ends.extend(range(len(complement) - params[4], len(complement)))
@@ -98,8 +103,8 @@ class Strategy(strategy_template.Strategy):
                 if self.weakPair(i, complement, miRNA, seq):
                     score += params[5]
 
-            # iterate through remaining miRNA, if G and complement is U, give -1
-            # iterate through remaining miRNA, if U and complement is G, give -1
+            # iterate to remaining miRNA, if G and complement is U, give -1
+            # iterate to remaining miRNA, if U and complement is G, give -1
             others = range(params[4], len(complement) - params[4])
             for i in others:
                 if self.weakPair(i, complement, miRNA, seq):

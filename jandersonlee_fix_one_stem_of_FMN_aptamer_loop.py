@@ -8,19 +8,19 @@ class Strategy(strategy_template.Strategy):
         strategy_template.Strategy.__init__(self)
 
         # Title, author of the strategy submission
-        self.title_ = "[Strategy Market][Switch] Fix one Stem of FMN Aptamer loop"
+        self.title_ = ("[Strategy Market][Switch]"
+                       "Fix one Stem of FMN Aptamer loop")
         self.author_ = "jandersonlee"
 
         # URL where the strategy was initially submitted
-        self.url_ = ("https://getsatisfaction.com/eternagame/topics/-strategy-market-switch")
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch")
 
         # Default strategy parameters
-        # First param is the percent threshold to start penalizing switches, 
-        # second param is the amount of increase penalties by
-        self.default_params_ =  [1.0]
+        self.default_params_ = [1.0]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 40
+        self.code_length_ = 47
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -33,7 +33,7 @@ class Strategy(strategy_template.Strategy):
             for i in range(0, len(elements)):
                 if elements[i].type_ != type:
                     continue
-                
+
                 match = True
                 for n in range(0, len(bp)):
                     if n not in elements[i].indices_:
@@ -46,7 +46,7 @@ class Strategy(strategy_template.Strategy):
             for i in range(0, len(elements)):
                 if elements[i].type_ == type and bp in elements[i].indices_:
                     return elements[i]
-        
+
         return None
 
     def score(self, design, params):
@@ -69,7 +69,10 @@ class Strategy(strategy_template.Strategy):
             for i in range(0, len(bases)):
                 base = bases[i]
                 if design['secstruct' + state][base] != ".":
-                    elem = self.findRNAElement(eterna_utils.RNAELEMENT_STACK, base, design['secstruct_elements' + state])
+                    elem = self.findRNAElement(
+                        eterna_utils.RNAELEMENT_STACK,
+                        base, design['secstruct_elements' + state]
+                    )
                     if elem is not None and elem not in rnaelements:
                         rnaelements.append(elem)
 
@@ -77,7 +80,11 @@ class Strategy(strategy_template.Strategy):
             numfixed = 0
             for i in range(0, len(rnaelements)):
                 elem = rnaelements[i]
-                rnaelem = self.findRNAElement(eterna_utils.RNAELEMENT_STACK, elem.indices_, design['secstruct_elements' + otherstate])
+                rnaelem = self.findRNAElement(
+                    eterna_utils.RNAELEMENT_STACK,
+                    elem.indices_,
+                    design['secstruct_elements' + otherstate]
+                )
                 if rnaelem is not None:
                     numfixed += 1
 

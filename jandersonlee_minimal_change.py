@@ -12,10 +12,11 @@ class Strategy(strategy_template.Strategy):
         self.author_ = "jandersonlee"
 
         # URL where the strategy was initially submitted
-        self.url_ = ("https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-minimal-change")
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch-minimal-change")
 
         # Default strategy parameters
-        # First param is the percent threshold to start penalizing switches, 
+        # First param is the percent threshold to start penalizing switches,
         # second param is the amount of increase penalties by
         self.default_params_ = [0.3, 10]
 

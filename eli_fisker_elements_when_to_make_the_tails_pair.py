@@ -1,17 +1,21 @@
 import eterna_utils
 import strategy_template
 
+
 class Strategy(strategy_template.Strategy):
     def __init__(self):
 
         strategy_template.Strategy.__init__(self)
 
         # Title, author of the strategy submission
-        self.title_ = "[Strategy Market] [Switch] Elements: When to make the tails pair"
+        self.title_ = ("[Strategy Market] [Switch]"
+                       "Elements: When to make the tails pair")
         self.author_ = "Eli Fisker"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-elements-when-to-make-the-tails-pair"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch"
+                     "-elements-when-to-make-the-tails-pair")
 
         # Default strategy parameters
         self.default_params_ = [8, -1.0, 14, -1.0]
@@ -28,7 +32,7 @@ class Strategy(strategy_template.Strategy):
         score = 100
         danglingCount = 0
         states = [1, 2]
-        
+
         for n in states:
             ss = design['secstruct' + str(n)]
             for i in range(0, len(ss)):

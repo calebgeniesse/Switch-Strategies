@@ -1,23 +1,26 @@
 import eterna_utils
 import strategy_template
 
+
 class Strategy(strategy_template.Strategy):
     def __init__(self):
 
         strategy_template.Strategy.__init__(self)
 
         # Title, author of the strategy submission
-        self.title_ = "[Strategy Market] [Switch] Elements: How to turn off MS2"
+        self.title_ = ("[Strategy Market] [Switch]"
+                       "Elements: How to turn off MS2")
         self.author_ = "Eli Fisker"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-elements-how-to-turn-off-ms2"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch-elements-how-to-turn-off-ms2")
 
         # Default strategy parameters
         self.default_params_ = [3, 6, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 83
+        self.code_length_ = 100
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -32,14 +35,14 @@ class Strategy(strategy_template.Strategy):
 
     def canPair(self, b1, b2):
         return ((b1 == 'G' and (b2 == 'U' or b2 == 'C')) or
-            (b1 == 'U' and (b2 == 'A' or b2 == 'G')) or
-            (b1 == 'A' and (b2 == 'U')) or
-            (b1 == 'C' and (b2 == 'G')))
+                (b1 == 'U' and (b2 == 'A' or b2 == 'G')) or
+                (b1 == 'A' and (b2 == 'U')) or
+                (b1 == 'C' and (b2 == 'G')))
 
     def score(self, design, params):
 
         score = 100
-        MS2consensus = "ACAUGAGGAUCACCCAUGU" 
+        MS2consensus = "ACAUGAGGAUCACCCAUGU"
         MS2start = design['sequence'].find(MS2consensus)
         MS2end = MS2start + len(MS2consensus)
 
@@ -72,22 +75,35 @@ class Strategy(strategy_template.Strategy):
 
                 # FMN BEFORE MS2
                 complement = []
-                if abs(MS2start - FMNindices[0]) == dist or abs(MS2start - FMNindices[3]) == dist:
-                    complement = self.getBases(design['sequence'], MS2end, params[1])
-                
+                if (abs(MS2start - FMNindices[0]) == dist or
+                        abs(MS2start - FMNindices[3]) == dist):
+                    complement = self.getBases(
+                                    design['sequence'],
+                                    MS2end,
+                                    params[1]
+                                )
+
                 # FMN ATER MS2
                 else:
                     if abs(MS2end - FMNindices[0]) == dist:
-                        complement = self.getBases(design['sequence'], FMNindices[1], params[1])
+                        complement = self.getBases(
+                                        design['sequence'],
+                                        FMNindices[1],
+                                        params[1]
+                                    )
                     else:
-                        complement = self.getBases(design['sequence'], FMNindices[3], params[1])
-                
+                        complement = self.getBases(
+                                        design['sequence'],
+                                        FMNindices[3],
+                                        params[1]
+                                    )
+
                 # Check if the next 5 (n-1) are complementary to the MS2
                 compindeces = []
                 complen = 0
 
                 for i in range(-1, len(MS2consensus) - (len(complement) - 1)):
-                    
+
                     pcompindices = []
                     pcomplen = 0
 
@@ -103,9 +119,11 @@ class Strategy(strategy_template.Strategy):
                         complen = pcomplen
                         compindeces = pcompindices
 
-                if (compindeces[0] == -1 or 
-                    (complement[0] == 'G' and MS2consensus[compindeces[0]] == 'U') or
-                    (complement[0] == 'U' and MS2consensus[compindeces[0]] == 'G')):
+                if (compindeces[0] == -1 or
+                        (complement[0] == 'G' and
+                            MS2consensus[compindeces[0]] == 'U') or
+                        (complement[0] == 'U' and
+                            MS2consensus[compindeces[0]] == 'G')):
                     score += params[2]
 
                 countC = countU = 0
@@ -129,13 +147,15 @@ class Strategy(strategy_template.Strategy):
         else:
             for state in range(1, 3):  # states 1, 2
                 for base in range(MS2start, MS2end + 1):
-                    if design['pairmap' + str(state)][base] in range(FMNindices[0], FMNindices[1] + 1):
+                    loc = design['pairmap' + str(state)][base]
+                    if (design['pairmap' + str(state)][base] in
+                            range(FMNindices[0], FMNindices[1] + 1)):
                         score += params[6]
-                    if design['pairmap' + str(state)][base] in range(FMNindices[2], FMNindices[3] + 1):
+                    if (design['pairmap' + str(state)][base] in
+                            range(FMNindices[2], FMNindices[3] + 1)):
                         score += params[7]
-                    if (design['sequence'][base] == "C" and 
-                        design['pairmap' + str(state)][base] != -1 and 
-                        design['sequence'][design['pairmap' + str(state)][base]] == "G"):
+                    if (design['sequence'][base] == "C" and loc != -1 and
+                            design['sequence'][loc] == "G"):
                         score += params[8]
 
         return score

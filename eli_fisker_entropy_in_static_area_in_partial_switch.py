@@ -9,11 +9,14 @@ class Strategy(strategy_template.Strategy):
         strategy_template.Strategy.__init__(self)
 
         # Title, author of the strategy submission
-        self.title_ = "[Strategy Market] [Switch] Entropy in static area in partial switch"
+        self.title_ = ("[Strategy Market] [Switch]"
+                       "Entropy in static area in partial switch")
         self.author_ = "Eli Fisker"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-entropy-in-static-area-in-partial-switch"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch"
+                     "-entropy-in-static-area-in-partial-switch")
 
         # Default strategy parameters
         # First four are thresholds (< 0.7, 0.8-0.9, > 1.0)
@@ -41,7 +44,7 @@ class Strategy(strategy_template.Strategy):
         # What the bases binding occured in were, and which state (1 or 2)
         # the binding occured in.
         bases = design['site']
-        state = design['aptamerstate']
+        state = str(design['on_state'])
 
         switchbp = 0
         nonswitches = []
@@ -57,7 +60,7 @@ class Strategy(strategy_template.Strategy):
 
         if float(switchbp) / len(bases) <= 0.5:
             # Partial switch - calculate positional entropies
-            # Positional entropies are computed from the pair probabilities as 
+            # Positional entropies are computed from the pair probabilities as
             # "S(i) = - Sum_i p(ij) log(p(ij))".
 
             states = [1, 2]
@@ -80,13 +83,13 @@ class Strategy(strategy_template.Strategy):
                 entropies.append(entropy)
 
                 for base in range(0, len(nonswitches)):
-                    entropy = entropies[n][base]
-                    if entropy < params[0]:
+                    ent = entropies[n][base]
+                    if ent < params[0]:
                         score += params[4]
-                    elif params[1] <= entropy <= params[2]:
+                    elif params[1] <= ent <= params[2]:
                         score += params[5]
-                    elif params[3] < entropy:
-                        score += (params[6]) * pow((params[7]), (entropy - params[3]))
+                    elif params[3] < ent:
+                        score += params[6] * pow(params[7], ent - params[3])
 
         else:
             score = eterna_utils.UNSCORABLE

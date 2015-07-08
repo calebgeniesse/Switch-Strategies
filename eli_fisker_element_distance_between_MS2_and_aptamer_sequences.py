@@ -1,20 +1,24 @@
 import eterna_utils
 import strategy_template
 
+
 class Strategy(strategy_template.Strategy):
     def __init__(self):
 
         strategy_template.Strategy.__init__(self)
 
         # Title, author of the strategy submission
-        self.title_ = "[Strategy Market] [Switch] Element: Distance between MS2 and aptamer sequences"
+        self.title_ = ("[Strategy Market] [Switch]"
+                       "Element: Distance between MS2 and aptamer sequences")
         self.author_ = "Eli Fisker"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-element-distance-between-ms2-and-aptamer-sequences"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch"
+                     "-element-distance-between-ms2-and-aptamer-sequences")
 
         # Default strategy parameters
-        self.default_params_ = [11, 6, 11, 5, 6, 6, 11, 3, 
+        self.default_params_ = [11, 6, 11, 5, 6, 6, 11, 3,
                                 -1.0, -1.0, -1.0, 1.0, 1.0, 1.0, 3.0]
 
         # Number of lines of code used to implement the strategy

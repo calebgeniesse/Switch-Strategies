@@ -1,23 +1,27 @@
 import eterna_utils
 import strategy_template
 
+
 class Strategy(strategy_template.Strategy):
     def __init__(self):
 
         strategy_template.Strategy.__init__(self)
 
         # Title, author of the strategy submission
-        self.title_ = "[Strategy Market] [Switch] Elements: Down boost hairpin loops in switching area"
+        self.title_ = ("[Strategy Market] [Switch]"
+                       "Elements: Down boost hairpin loops in switching area")
         self.author_ = "Eli Fisker"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-elements-down-boost-hairpin-loops-in-switching-area"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch"
+                     "-elements-down-boost-hairpin-loops-in-switching-area")
 
         # Default strategy parameters
         self.default_params_ = [0.5, -1.0, 5, 0.5, 2.0, 1]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 26
+        self.code_length_ = 28
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -37,9 +41,11 @@ class Strategy(strategy_template.Strategy):
                     switching = False
                     upboosts = 0
                     for i in range(0, len(elem.indices_)):
-                        if design['secstruct' + str(state)][i] != design['secstruct' + str(otherstate)][i]:
+                        if (design['secstruct' + str(state)][i] !=
+                                design['secstruct' + str(otherstate)][i]):
                             switching = True
-                        if i > 0 and elem.indices_[i] - elem.indices_[i-1] != 1:
+                        if (i > 0 and
+                                elem.indices_[i] - elem.indices_[i-1] != 1):
                             hairpin = False
                         if design['sequence'][i] == 'U':
                             upboosts += 1
@@ -48,7 +54,7 @@ class Strategy(strategy_template.Strategy):
                         if energy < params[0]:
                             score += params[1]
                         if len(elem.indices_) >= params[2]:
-                            score += ( params[4] * (energy - params[3]))
+                            score += (params[4] * (energy - params[3]))
                         if len(elem.indices_) < params[2]:
                             score += (upboosts * params[5])
         return score

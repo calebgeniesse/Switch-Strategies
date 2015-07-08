@@ -12,15 +12,16 @@ class Strategy(strategy_template.Strategy):
         self.author_ = "jandersonlee"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-energy-model-agnostic"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch-energy-model-agnostic")
 
         # Default strategy parameters
-        # First param is the percent threshold to start penalizing switches, 
+        # First param is the percent threshold to start penalizing switches,
         # second param is the amount of increase penalties by
         self.default_params_ = [0.3, 10]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 16
+        self.code_length_ = 18
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -33,13 +34,15 @@ class Strategy(strategy_template.Strategy):
         states = [1, 2]
 
         for n in range(0, len(states)):
+            st = str(states[n])
             for i in range(0, len(design['sequence'])):
-                if design['secstruct' + str(states[n]) + "_v1"][i] != design['secstruct' + str(states[n]) + "_v2.2"][i]:
+                if (design['secstruct' + st + "_v1"][i] !=
+                        design['secstruct' + st + "_v2.2"][i]):
                     switches += 1
-                elif design['secstruct' + str(states[n]) + "_v1"][i] != ".":
-                    pair1 = design['sequence'][design['pairmap' + str(states[n]) + "_v1"][i]]
-                    pair2 = design['sequence'][design['pairmap' + str(states[n]) + "_v2.2"][i]]
-                    if pair1 != pair2:
+                elif design['secstruct' + st + "_v1"][i] != ".":
+                    p1 = design['pairmap' + st + "_v1"][i]
+                    p2 = design['pairmap' + st + "_v2.2"][i]
+                    if design['sequence'][p1] != design['sequence'][p2]:
                         switches += 1
 
         # Convert to percentage so threshold applies for seqs of all lengths

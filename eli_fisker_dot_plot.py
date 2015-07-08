@@ -1,15 +1,18 @@
 import strategy_template
 
+
 class Strategy(strategy_template.Strategy):
     def __init__(self):
 
         strategy_template.Strategy.__init__(self)
 
-        self.title_ = "[Strategy Market] [Switch] Dot plot" # Title of the strategy submission
-        self.author_ = "Eli Fisker" # Author of the strategy submisison
+        # Title, author of the submission
+        self.title_ = "[Strategy Market] [Switch] Dot plot"
+        self.author_ = "Eli Fisker"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-dot-plot"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch-dot-plot")
 
         # Default strategy parameters
         self.default_params_ = [5.0, 3.0, 5.0, 1.0, 5.0, 1.0]
@@ -20,7 +23,7 @@ class Strategy(strategy_template.Strategy):
         self.publishable_ = True
         self.denormalized_ = True
         self.comprehensive = False
-    
+
     # Take the longer dotplot, compare all its values to the other plot
     # Where it differs, tally up a count and how much it differs by
     def amountMatch(plot1, plot2):
@@ -50,7 +53,6 @@ class Strategy(strategy_template.Strategy):
 
         return (count, diff)
 
-
     def score(self, design, params):
 
         score = 100
@@ -68,7 +70,7 @@ class Strategy(strategy_template.Strategy):
             # What the bases binding occured in were, and which state (1 or 2)
             # the binding occured in.
             bases = design['site']
-            state = design['aptamerstate']
+            state = str(design['on_state'])
 
             switchbp = 0
 
@@ -83,11 +85,17 @@ class Strategy(strategy_template.Strategy):
                 # Partial switch
                 # U = upper, L = lower
                 diff = amountMatch(design['dotplot1u'], design['dotplot2l'])[1]
-                if diff < params[0]:  # If the difference was small - state1 top has well match with state1 bottom
+
+                # If the difference was small:
+                # state1 top has well match with state1 bottom
+                if diff < params[0]:
                     score += params[1]
 
                 diff = amountMatch(design['dotplot2l'], design['dotplot1l'])[1]
-                if diff < params[2]:  # If the difference was small - state2 is more present in state1 prediction
+
+                # If the difference was small:
+                # state2 is more present in state1 prediction
+                if diff < params[2]:
                     score -= (diff * params[3])
 
             else:

@@ -2,16 +2,19 @@ import strategy_template
 import re
 import eterna_utils
 
+
 class Strategy(strategy_template.Strategy):
     def __init__(self):
 
         strategy_template.Strategy.__init__(self)
 
-        self.title_ = "[Strategy Market][Switch]A guidance" # Title of the strategy submission
-        self.author_ = "salish99" # Author of the strategy submisison
+        # Title, author of the submission
+        self.title_ = "[Strategy Market][Switch]A guidance"
+        self.author_ = "salish99"
 
         # URL where the strategy was initially submitted
-        self.url_ = "https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-a-guidance"
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch-a-guidance")
 
         # Default strategy parameters
 
@@ -19,7 +22,7 @@ class Strategy(strategy_template.Strategy):
         self.default_params_ = [0.4, -1, 2, 5, 3, -1.0, 3.0]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 27
+        self.code_length_ = 31
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -57,14 +60,18 @@ class Strategy(strategy_template.Strategy):
 
         # big bonus to quad(4) A when 1 or more A is in a loop (creates hinge)
         quadlocs = [m.start() for m in re.finditer("AAAA", design['sequence'])]
-        
+
         # get all RNA elements in both states
         elems = design['secstruct_elements1']
         elems.extend(design['secstruct_elements2'])
 
         for loc in quadlocs:
             for i in range(loc, loc+4):
-                elem = self.findRNAElement(eterna_utils.RNAELEMENT_LOOP, i, elems)
+                elem = self.findRNAElement(
+                    eterna_utils.RNAELEMENT_LOOP,
+                    i,
+                    elems
+                )
                 if elem is not None:
                     score += params[6]
                     break

@@ -12,21 +12,22 @@ class Strategy(strategy_template.Strategy):
         self.author_ = "Brourd"
 
         # URL where the strategy was initially submitted
-        self.url_ = ("https://getsatisfaction.com/eternagame/topics/-strategy-market-switch-helix-composition")
+        self.url_ = ("https://getsatisfaction.com/eternagame/topics/"
+                     "-strategy-market-switch-helix-composition")
 
         # Default strategy parameters
         # Row 1: penalties/awards for active helices
         # Row 2: thresholds for active helices
         # Row 3: penalties for passive helices
         # Row 4: thresholds for passive helices
-        self.default_params_ = [1.0, 1.0, -1.0, -2.0, -1.0, -1.0, 
+        self.default_params_ = [1.0, 1.0, -1.0, -2.0, -1.0, -1.0,
                                 2, 2, 0, 3, 2, 0, 1, 0, 2,
                                 -1.0, -1.0, -1.0,
-                                3, 2.0, 7, 0.05 
+                                3, 2.0, 7, 0.05
                                 ]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = 61
+        self.code_length_ = 81
 
         self.publishable_ = True
         self.denormalized_ = True
@@ -37,7 +38,7 @@ class Strategy(strategy_template.Strategy):
         for i in range(0, len(elements)):
             if elements[i].type_ != type:
                 continue
-            
+
             match = True
             for n in range(0, len(bplist)):
                 if n not in elements[i].indices_:
@@ -58,11 +59,14 @@ class Strategy(strategy_template.Strategy):
             # Avoid double counting by only looking forwards at "(" basepairs
             if secstruct[i] != '(':
                 continue
-            if (sequence[i] == 'G' and sequence[pmap[i]] == 'C') or (sequence[i] == 'C' and sequence[pmap[i]] == 'G'):
+            if ((sequence[i] == 'G' and sequence[pmap[i]] == 'C') or
+                    (sequence[i] == 'C' and sequence[pmap[i]] == 'G')):
                 bpGC += 1
-            if (sequence[i] == 'G' and sequence[pmap[i]] == 'U') or (sequence[i] == 'U' and sequence[pmap[i]] == 'G'):
+            if ((sequence[i] == 'G' and sequence[pmap[i]] == 'U') or
+                    (sequence[i] == 'U' and sequence[pmap[i]] == 'G')):
                 bpGU += 1
-            if (sequence[i] == 'A' and sequence[pmap[i]] == 'U') or (sequence[i] == 'U' and sequence[pmap[i]] == 'A'):
+            if ((sequence[i] == 'A' and sequence[pmap[i]] == 'U') or
+                    (sequence[i] == 'U' and sequence[pmap[i]] == 'A')):
                 bpAU += 1
 
         return (bpGC, bpGU, bpAU, numBP)
@@ -81,20 +85,30 @@ class Strategy(strategy_template.Strategy):
             elems = design['secstruct_elements' + state]
 
             for i in range(0, len(elems)):
-                rnaelem = self.findRNAElement(eterna_utils.RNAELEMENT_STACK, elems[i].indices_, design['secstruct_elements' + str(otherstate)])
+                rnaelem = self.findRNAElement(
+                    eterna_utils.RNAELEMENT_STACK,
+                    elems[i].indices_,
+                    design['secstruct_elements' + str(otherstate)]
+                )
                 if rnaelem is not None:
                     passives.append(elems[i])
                 else:
                     actives.append(elems[i])
 
             for i in range(0, len(actives)):
-                bpGC, bpGU, bpAU, numBP = self.calculateBPAmount(actives[i], design['sequence'], design['secstruct' + state], design['pairmap' + state])
-                
+                bpGC, bpGU, bpAU, numBP = self.calculateBPAmount(
+                    actives[i],
+                    design['sequence'],
+                    design['secstruct' + state],
+                    design['pairmap' + state]
+                )
+
                 if bpGC == params[6]:
                     score += params[0]
                 elif bpGC > params[7] and bpGU == params[8]:
                     score += params[1] * (bpGC - params[7])
-                elif (bpGC > params[9] and bpGU <= params[10]) or (bpGC <= params[9] and bpGU > params[10]):
+                elif ((bpGC > params[9] and bpGU <= params[10]) or
+                        (bpGC <= params[9] and bpGU > params[10])):
                     score += params[2]
 
                 elif bpGC == params[11]:
@@ -106,7 +120,12 @@ class Strategy(strategy_template.Strategy):
                     score += params[5]
 
             for i in range(0, len(passives)):
-                bpGC, bpGU, bpAU, numBP = self.calculateBPAmount(passives[i], design['sequence'], design['secstruct' + state], design['pairmap' + state])
+                bpGC, bpGU, bpAU, numBP = self.calculateBPAmount(
+                    passives[i],
+                    design['sequence'],
+                    design['secstruct' + state],
+                    design['pairmap' + state]
+                )
 
                 if numBP <= params[18]:
                     score += params[15]
@@ -116,7 +135,9 @@ class Strategy(strategy_template.Strategy):
 
                 for j in range(0, len(design['dotplot' + state])):
                     dot = design['dotplot' + state][j]
-                    if dot[0] in passives[i].indices_ or dot[1] in passives[i].indices_ and dot[2] <= params[21]:
+                    if (dot[0] in passives[i].indices_ or
+                            dot[1] in passives[i].indices_ and
+                            dot[2] <= params[21]):
                         # Alternative pairing
                         score += params[17]
 
