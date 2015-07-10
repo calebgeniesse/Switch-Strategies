@@ -21,7 +21,7 @@ class Strategy(strategy_template.Strategy):
                                 3.0, 5, -1.0, 6, 9, 3.0, -1.0]
 
         # Number of lines of code used to implement the strategy
-        self.code_length_ = LOLTODO
+        self.code_length_ = 37
 
         self.publishable_ = True
         self.denormalized_ = True
