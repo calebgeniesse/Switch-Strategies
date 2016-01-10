@@ -1,4 +1,5 @@
 import eterna_utils
+from eterna_utils import *
 import strategy_template
 
 
@@ -103,10 +104,35 @@ class Strategy(strategy_template.Strategy):
                     design['pairmap' + state]
                 )
 
+                ''''
+                # Copied params down here to better proofread
+                # Row 1: penalties/awards for active helices
+                # Row 2: thresholds for active helices
+                # Row 3: penalties for passive helices
+                # Row 4: thresholds for passive helices
+
+                self.default_params_ = [0=1.0, 1=1.0, 2=-1.0, 3=-2.0, 4=-1.0, 5=-1.0,
+                                6=2, 7=2, 8=0, 9=3, 10=2, 11=0, 12=1, 13=0, 14=2,
+                                15=-1.0, 16=-1.0, 17=-1.0,
+                                18=3, 19=2.0, 20=7, 21=0.05
+                                ]
+
+                '''
                 if bpGC == params[6]:
                     score += params[0]
                 elif bpGC > params[7] and bpGU == params[8]:
                     score += params[1] * (bpGC - params[7])
+
+                #TODO RB 10/13/15
+                #Rule for the elif below which I'm not sure is interpreted correctly:
+                #      'If the number of G-C base pairs in an active helix exceeds 
+                #       the count of two, and there are G-u base pairs between the
+                #       G-C base pairs in the helix, then neither reward nor penalize
+                #       up to a maximum of 3 G-C base pairs and two G-U base pairs between
+                #       the G-C base pairs'
+                #
+                #   Should be ((bpGC >= params[9] but not sure about the second 'or' half
+                #   also doesn't test the position of the G-U base pairs, but that is not trivial
                 elif ((bpGC > params[9] and bpGU <= params[10]) or
                         (bpGC <= params[9] and bpGU > params[10])):
                     score += params[2]
@@ -142,3 +168,20 @@ class Strategy(strategy_template.Strategy):
                         score += params[17]
 
         return score
+
+#My own little test code
+#designs = get_synthesized_designs_from_eterna_server()
+#design = designs[1]
+#print design
+seq =       'AAAAGAAACAA'
+struct =    '....(...)..'
+design = get_design_from_sequence(seq,struct)
+design['secstruct_elements1'] = design['secstruct_elements']
+design['secstruct_elements2'] = design['secstruct_elements']
+design['secstruct1'] = design['secstruct']
+design['secstruct2'] = design['secstruct']
+design['pairmap1'] = design['pairmap']
+design['pairmap2'] = design['pairmap']
+strat = Strategy()
+score = strat.score(design,strat.default_params_)
+print score

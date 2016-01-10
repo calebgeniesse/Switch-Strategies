@@ -81,6 +81,9 @@ class Strategy(strategy_template.Strategy):
                     if pair1 != pair2:
                         switchbp += 1
 
+            #RB 10/19/2015:
+            #   The two diff = lines probably have the wrong u and l
+            #   Although I don't understand what upper and lower means
             if float(switchbp) / len(bases) <= 0.5:
                 # Partial switch
                 # U = upper, L = lower

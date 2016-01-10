@@ -1,7 +1,7 @@
 import eterna_utils
 import strategy_template
 
-
+#RB 10/21/15: Yes I don't think there are errors here
 class Strategy(strategy_template.Strategy):
     def __init__(self):
 

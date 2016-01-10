@@ -57,7 +57,9 @@ class Strategy(strategy_template.Strategy):
             score += params[1]
         elif perdiff < params[6]:
             score += params[2]
-        elif perdiff > params[7]:
-            score += ((perdiff - params[7]) * params[8])
+        #RB 10/14/15 changed greater to greater than or equal to
+        elif perdiff >= params[7]:
+            #RB 10/14/15 changed to score -= because it needs to penalize and perdiff - params[7] will be positive, as is params[8]
+            score -= ((perdiff - params[7]) * params[8])
 
         return score

@@ -23,7 +23,7 @@ class Strategy(strategy_template.Strategy):
         # Third row: general switches
         self.default_params_ = [1, 1.4, 1.5, 2, 2, 3,
                                 1, 1.4, 1.5, 2, 3, 2,
-                                0.9, 2.1, 3.0, 3.0, -2, 1, 0, 2, 1]
+                                0.9, 2.1, 3.0, 3.0, -2, 1, 0, 2, -1]
 
         # Number of lines of code used to implement the strategy
         self.code_length_ = 34
@@ -78,15 +78,21 @@ class Strategy(strategy_template.Strategy):
                     score += params[4 + amount]
                 elif params[2 + amount] < maxe < params[3 + amount]:
                     score += params[5 + amount]
-
+            #RB 10/21/15
+            #   Do we need to check for microrna puzzle
+            #   and return unscorable?
+            #   Also the code above could cleaned up by moving the
+            #   If's into the turn on labs and turn off labs block
             if maxe < params[12]:
                 score += params[16]
             elif params[13] < maxe < params[14]:
                 # Linear score of reward from +1 to 0 if closer to 2.1 then 3
-                score += ((maxe - params[13]) * (params[17] - params[18]))
+                # RB added the /(params[14]-params[13]) to regularize between 0 and 1, minor change
+                score += (((maxe - params[13])/(params[14]-params[13])) * (params[17] - params[18]))
             elif maxe > params[15]:
                 # Exponential penalty of A * (B^(entropy above 3))
                 # B = 2, A = 1 (default)
+                #RB 10/21/15 This needs to be -= since its a penalty, or params[20] should be negative 1 (change I made)
                 score += params[20] * pow((params[19]), (maxe - params[15]))
 
         return score

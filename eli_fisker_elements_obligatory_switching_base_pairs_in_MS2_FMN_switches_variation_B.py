@@ -38,6 +38,7 @@ class Strategy(strategy_template.Strategy):
 
         switchbp = 0
 
+        #RB 10/21/15 I don't understand how this strategy is different than A
         for i in seq_range:
             if design['secstruct1'][i] == '(':
                 # base paired

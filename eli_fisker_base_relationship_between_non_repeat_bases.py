@@ -63,6 +63,12 @@ class Strategy(strategy_template.Strategy):
 
         pSingles = float(singleA + singleG + singleC + singleU) / seqlength
 
+        #TODO:
+        #RB 10/14/15
+        # Unsure of proper strategy interpretations:
+        #   'Reward when there are more A’s than U’s, more U’s than G’s and more G’s than C’s.'
+        # Implemented below given a reward for each pairwise relationship satisfied, but might mean
+        # That all need pairwise relationships need to be satisfied to get any reward
         if singleA + singleU > singleC + singleG:
             score += params[3]
         if singleA > singleU:

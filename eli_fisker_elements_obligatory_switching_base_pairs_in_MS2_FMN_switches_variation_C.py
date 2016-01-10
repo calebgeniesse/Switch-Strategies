@@ -38,6 +38,8 @@ class Strategy(strategy_template.Strategy):
 
         switchbp = 0
 
+        #RB 10/21/15 I also don't understand what is going on here different than A or B
+        #   How is comparing the secstructs different than the pairmaps?
         for n in range(1, 3):  # [1, 2]
             state = str(n)
             otherstate = str((n % 2) + 1)

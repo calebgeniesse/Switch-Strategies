@@ -36,6 +36,7 @@ class Strategy(strategy_template.Strategy):
             otherstate = (state % 2) + 1
             elems = design['secstruct_elements' + str(state)]
             for elem in elems:
+                #RB 10/19/15: Are there are other types of loops in here rather than just hairpins?
                 if elem.type_ == eterna_utils.RNAELEMENT_LOOP:
                     hairpin = True
                     switching = False
@@ -47,10 +48,11 @@ class Strategy(strategy_template.Strategy):
                         if (i > 0 and
                                 elem.indices_[i] - elem.indices_[i-1] != 1):
                             hairpin = False
-                        if design['sequence'][i] == 'U':
+                        if design['sequence'][i] == 'U': #I thought A was used to boost?
                             upboosts += 1
                     if hairpin and switching:
                         energy = elem.score_
+                        #I don't think that this first if statement should be in here according to the strategy
                         if energy < params[0]:
                             score += params[1]
                         if len(elem.indices_) >= params[2]:

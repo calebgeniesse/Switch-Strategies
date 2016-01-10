@@ -102,6 +102,8 @@ class Strategy(strategy_template.Strategy):
                 compindeces = []
                 complen = 0
 
+                #RB 10/20/15: I am not sure what this for-loop is doing
+                #Sometimes it updates compindeces and sometimes it doesn't
                 for i in range(-1, len(MS2consensus) - (len(complement) - 1)):
 
                     pcompindices = []
@@ -154,6 +156,9 @@ class Strategy(strategy_template.Strategy):
                     if (design['pairmap' + str(state)][base] in
                             range(FMNindices[2], FMNindices[3] + 1)):
                         score += params[7]
+                    #RB 10/20/15
+                    #Doesn't check if a pair is made, just checks whether a C and G exist
+                    #Is this enough?
                     if (design['sequence'][base] == "C" and loc != -1 and
                             design['sequence'][loc] == "G"):
                         score += params[8]

@@ -27,6 +27,7 @@ class Strategy(strategy_template.Strategy):
         self.denormalized_ = True
         self.comprehensive = False
 
+    #RB 10/21/15 Yes I think that this strategy works properly
     def score(self, design, params):
 
         score = 100

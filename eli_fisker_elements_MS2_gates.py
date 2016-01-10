@@ -40,6 +40,13 @@ class Strategy(strategy_template.Strategy):
                 maxind = max(elem.indices_)
                 if minind < minpos and maxpos < maxind:
                     length = len(elem.indices_)
+                    
+                    #RB 10/20/15:
+                    #   Checking the wrong kinds of labs, needs to check:
+                    #       "Exclusion" in design['puztitle']
+                    #       "Stame State" in design['puztitle']
+                    #       "miRNA" in design['puztitle']
+                    
 
                     # Turn off labs
                     if("Same State" not in design['puztitle']):

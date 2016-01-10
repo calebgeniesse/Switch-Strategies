@@ -20,8 +20,11 @@ class Strategy(strategy_template.Strategy):
         # Row 1 is turn on labs, row 2 is turn off labs
         # row 3 is awards/penalties for turn on labs
         # row 4 is awards/penalties for turn off labs
-        self.default_params_ = [.40, .50, .35, .39, .51, .55, 0, .35, .55, 1,
-                                .30, .40, .25, .29, .40, .50, 0, .25, .45, 1,
+
+        #RB 10/14/15 changed 3rd index of row 0 from .39 to .49
+        #RB 10/14/15 changed 5th index of row 1 from .50 to .45
+        self.default_params_ = [.40, .50, .35, .49, .51, .55, 0, .35, .55, 1,
+                                .30, .40, .25, .29, .40, .45, 0, .25, .45, 1,
                                 2.0, 1.0, -1.0,
                                 2.0, 1.0, -1.0,
                                 ]
